@@ -1,0 +1,54 @@
+
+  <!-- Header -->
+  <%- include('../partials/head.ejs') %>
+
+      <!-- Navigation Bar & Notifications -->
+      <%- include('../partials/nav.ejs') %>
+      <main>
+
+
+    
+    <div class="container">
+
+
+          <!-- User Menu Bar -->
+             <%- include('../partials/menu_bar.ejs') %>
+
+            <% if(msg){ %> <div class="text-center mt-3"><h2> <%= msg %> </h2></div><% } %>  
+
+            <div class="container mt-3  "> <!--container-->
+              <div class="row justify-content-center"> <!--row-->
+                <div class="row d-flex justify-content-between ml-7 mr-7"> <!-- row d-flex-->
+
+          <% if(courses.length > 0 ){ %> <% courses.forEach(course => { %>
+
+                  <% if(course.isPublic || userId == course.author){ %>
+                    <div class="card m-2 p-0 mb-5 coursebox "> <!--card-->
+                      <img
+                        class="card-img-top course-img-icon"
+                        src="<%= course.imageUrl %> "
+                        alt="Course image"
+                        width="400px"
+                      />
+                    <div class="card-body ">
+                      <h4 class="card-title coursebox-title"><%= course.title  %> </h4>
+                    </div>
+                      <div class="card-footer">
+                            <a href="courses/details/<%= course._id%>"><button type="button" class="btn btn-info details">Details</button></a>
+                            <small class="float-right "><%= course.createdAt  %> </small>
+                      </div>
+                    </div> <!--card-->
+                  <% } %> 
+                <% }) %>
+          <% } else { %>
+                </div> <!-- row d-flex-->
+              </div> <!--row-->
+            </div> <!--container-->
+
+            <h3 class="text-center <% if (msg) { %> hidden <% } %> ">No courses...</h4>
+          <% } %>
+      </main>
+    </div> <!--container-->
+
+      <!-- Footer -->
+      <%- include('../partials/footer.ejs') %>

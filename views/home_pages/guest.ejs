@@ -1,0 +1,79 @@
+
+  <!-- Header -->
+  <%- include('../partials/head.ejs') %>
+
+      <!-- Navigation Bar-->
+      <%- include('../partials/nav.ejs') %>
+
+      <!-- Header Billboard -->
+      <div class="jumbotron jumbotron-billboard">
+        <div class="img"></div>
+          <div class="container">
+              <div class="row">
+                  <div class="col-lg-12">
+                    <h2>Start Self-Study Today</h2>
+                      <p>
+                          It'll Change Your Life
+                      </p>
+                      <a href="/signup" class="btn btn-success btn-lg">Sign Up</a>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+  <main>
+        
+
+        <% if(courses.length > 0 ){ %> 
+            <h3 class="text-center display-4">Top Courses</h4>
+
+
+   
+
+            <div class="container mt-3 "> <!--container-->
+              <div class="row justify-content-center" > <!--row-->
+                <div class="row d-flex "> <!-- row d-flex-->
+
+                  
+                  
+                  <% courses.forEach(course => { %>
+
+                 
+                   <div class="card m-2 p-0 coursebox "> <!--card-->
+                      <img
+                        class="card-img-top course-img-icon"
+                        src="<%= course.imageUrl %> "
+                        alt="Course image"
+                         width="400px"
+                       
+                      />
+                    <div class="card-body ">
+                      <h4 class="card-title coursebox-title"><%= course.title  %> </h4>
+                    </div>
+                
+                    </div> <!--card-->
+                 
+                <% }) %>
+
+          <% }else{ %>
+            <h3 class="text-center">No courses...</h3>
+              <% } %> 
+
+                </div> <!-- row d-flex-->
+              </div> <!--row-->
+            </div> <!--container-->
+        </main>
+    </div>
+
+
+      <!-- Footer -->
+      <%- include('../partials/footer.ejs') %>
+    </div>
+
+<script>
+
+  console.log(document.cookie);
+
+
+</script>
+

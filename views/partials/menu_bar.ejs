@@ -1,0 +1,30 @@
+<br>
+<h1 class="text-center display-4"> <% if (myCourses) { %> My Courses <% } else { %> Courses <% } %> </h1>
+
+<% if (!myCourses) { %>
+<section>
+  <nav class="navbar justify-content-between pl-0 pr-0">
+    <a href="courses/create" class="btn btn-warning my-2 my-sm-0"
+      >Create Course</a
+    >
+    <form class="search form-inline m-0" action="/search" method="get">
+      <input
+        class="form-control mr-sm-4"
+        name="search"
+        type="text"
+        placeholder="Find a product"
+        aria-label="Search"
+      />
+      <input
+        class="btn btn-outline-success"
+        type="submit"
+        value="&#xf002;"
+      />
+    </form>
+  </nav>
+</section>
+
+<% } %> 
+
+
+

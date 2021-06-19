@@ -1,0 +1,2 @@
+1) Ensure you have formatting onSave disabled for the VS Code settings as it will place end tags in your partial views
+where they are not required.

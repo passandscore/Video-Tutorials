@@ -1,0 +1,107 @@
+<!-- Header -->
+<%- include('../partials/head.ejs') %>
+
+  <!-- Navigation Bar -->
+  <%- include('../partials/nav.ejs') %>
+
+<div class="container">
+
+  <main>
+    <form
+      class="text-center border border-light p-5 rounded"
+      action="/login"
+      method="POST"
+    >
+      <div class="form-group h6">
+        <label for="username">Username</label>
+        <input
+          id="username"
+          type="text"
+          class="form-control"
+          placeholder="Username"
+          name="username"
+          value=""
+        />
+        <small class="username error"></small>
+      </div>
+      <div class="form-group h6">
+        <label for="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          class="form-control"
+          placeholder="Password"
+          name="password"
+          value=""
+        />
+        <small class="password error"></small>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+  </main>
+</div>
+
+  <!-- Footer -->
+  <%- include('../partials/footer.ejs') %>
+
+
+
+<!-- JAVASCRIPT -->
+<script>
+  const form = document.querySelector("form");
+  const usernameError = document.querySelector(".username.error");
+  const passwordError = document.querySelector(".password.error");
+  const usernameInput = document.querySelector("#username");
+  const passwordInput = document.querySelector("#password");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    // reset errors
+    usernameError.textContent = "";
+    passwordError.textContent = "";
+
+    // get values
+    const username = form.username.value;
+    const password = form.password.value;
+
+    try {
+      const res = await fetch("/login", {
+        method: "POST",
+        body: JSON.stringify({ username, password }),
+        headers: { "Content-Type": "application/json" },
+      });
+      const data = await res.json();
+      console.log(data);
+      sessionStorage.setItem("userId", data.user);
+      // if (data.errors) {
+      //   usernameError.textContent = data.errors.username;
+      //   passwordError.textContent = data.errors.password;
+
+      if (data.errors) {
+        usernameError.textContent = data.errors.username;
+        if (usernameError.textContent) {
+          usernameError.style.color = "red";
+          usernameInput.classList.add("is-invalid");
+        } else {
+          usernameInput.classList.remove("is-invalid");
+          usernameInput.classList.add("is-valid");
+        }
+
+        passwordError.textContent = data.errors.password;
+        if (passwordError.textContent) {
+          passwordError.style.color = "red";
+          passwordInput.classList.add("is-invalid");
+        } else {
+          passwordInput.classList.remove("is-invalid");
+        }
+      }
+      if (data.user) {
+        location.assign("/");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  });
+</script>
