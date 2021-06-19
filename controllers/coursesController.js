@@ -83,6 +83,8 @@ const courses_search = (req, res) => {
       title: "All Courses",
       courses,
       userId,
+      myCourses: false,
+      msg:false,
     });
   });
 };
