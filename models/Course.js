@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const User = require("./User");
 const { isURL } = require("validator");
 
 //Define the structure of your data
@@ -37,11 +36,6 @@ const courseSchema = new Schema(
   },
   { timestamps: true }
 );
-
-// courseSchema.path("imageUrl").validate(function () {
-//   let pattern = /^http(s)?\:\/\/.*/i;
-//   return pattern.test(this.imageUrl);
-// }, "Url must be http or https");
 
 //Model creates a user interface with static & instance methods
 const Course = mongoose.model("Course", courseSchema);

@@ -32,7 +32,8 @@
           <% }else { %> 
 
             <% if (isEnrolled) { %>
-            <span class="enrolled-span alreadyEnrolled">You are already enrolled</span>
+            <!-- <span class="enrolled-span alreadyEnrolled" >You are already enrolled</span> -->
+            <a class="btn btn-success enrollBtn" href="<%= course._id%>/enroll">You are currently enrolled</a>
             <% } else { %> 
             <a class="btn btn-primary enrollBtn" href="<%= course._id%>/enroll">Enroll</a>
             <% } %> 

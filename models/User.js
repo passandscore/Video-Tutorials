@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const { isAlphanumeric } = require("validator");
 const Schema = mongoose.Schema;
-const Course = require("./Course");
 const bcrypt = require("bcrypt");
 
 //Define the structure of your data

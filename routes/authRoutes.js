@@ -3,6 +3,7 @@ const authController = require("../controllers/authController");
 
 const router = Router();
 
+//Controllers
 router.get("/guest", authController.guest_get);
 router.get("/signup", authController.signup_get);
 router.post("/signup", authController.signup_post);

@@ -1,6 +1,14 @@
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 
+// create json web token
+const maxAge = 14400000; //milliseconds = 4hrs
+const createToken = (id) => {
+  return jwt.sign({ id }, "thisismysecret", {
+    expiresIn: maxAge,
+  });
+};
+
 // handle errors
 const handleLoginErrors = (err) => {
   let errors = { username: "", password: "" };
@@ -59,23 +67,14 @@ const handleSignupErrors = (err, password, repeatPassword) => {
   return errors;
 };
 
-// create json web token
-// const maxAge = 3 * 24 * 60 * 60;
-const maxAge = 14400000; //milliseconds
-const createToken = (id) => {
-  return jwt.sign({ id }, "net ninja secret", {
-    expiresIn: maxAge,
-  });
-};
-
 // controller actions
 module.exports.guest_get = (req, res) => {
-  res.render("guest", { title: "Guest"});
+  res.render("guest", { title: "Guest" });
 };
 
 module.exports.signup_get = (req, res) => {
   console.log("signup");
-  res.render("user_pages/signup", { title: "Register"});
+  res.render("user_pages/signup", { title: "Register" });
 };
 
 module.exports.login_get = (req, res) => {

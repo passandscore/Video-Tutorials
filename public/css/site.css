@@ -16,13 +16,6 @@ footer{
 margin-top: auto;
 }
 
-/* form{
-background-color: #fafafa;
-} */
-/* 
-nav{
-background-color: #fff;
-} */
 
 
 /* CLASSES */
@@ -45,13 +38,13 @@ background-color: #fff;
   margin-left: 10px;
 }
 
-.enrolled-span {
+/* .enrolled-span {
   text-decoration: underline;
   background-color: green;
   color: white;
   padding: 2%;
   border-radius: 4px;
-}
+} */
 
 
 .course-img-icon {
@@ -74,11 +67,21 @@ div .coursebox:hover {
 }
 
 /* home seach button */
-input[type="submit"] {
+#search-btn{
   font-family: "Font Awesome 5 Free";
   font-size: 1em;
   font-weight: 900;
+  width: 75px;
+  border-top-left-radius: 0%;
+  border-bottom-left-radius: 0%;
 }
+
+#search-input{
+margin-right: 0px !important;
+border-top-right-radius: 0%;
+border-bottom-right-radius: 0%;
+}
+
 
 .customFooter {
   min-height: 100vh;
@@ -86,10 +89,11 @@ input[type="submit"] {
   flex-direction: column;
 }
 
-/* .jumbotron {
-    background-image: url('/images/onlineLearning.jpg');
-    background-size: cover;
-} */
+.login-form, .signup-form{
+background-color: #EAEDED;
+}
+
+
 
 .jumbotron-billboard .img {
     margin-bottom: 0px;
@@ -123,7 +127,3 @@ input[type="submit"] {
   } */
 /* } */
 
-
-/* .row{
-justify-content: center;
-} */

@@ -12,7 +12,7 @@ router.get("/details/:id/edit", coursesController.course_edit_get);
 router.post("/details/:id/edit", coursesController.course_edit_post);
 router.get("/details/:id/delete", coursesController.course_delete_get);
 router.get("/details/:id", coursesController.course_details);
-router.get("/search", coursesController.courses_search);
+// router.get("/search", coursesController.courses_search);
 router.get("/mycourses", coursesController.courses_mycourses);
 
 module.exports = router;

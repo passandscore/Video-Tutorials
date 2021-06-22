@@ -40,12 +40,41 @@ const handleErrors = (err) => {
 };
 
 const courses_index = (req, res) => {
-  //Capture user id
-  const userId = res.locals.user._id;
+const userId = res.locals.user._id;
+
+
+if(req.query.search){
+
+  Course.find({}).then((courses) => {
+  const coursesCopy = [...courses];
+    
+    //search mode
+    if (req.query.search) {
+      courses = courses.filter((course) =>
+        course.title.toLowerCase().includes(req.query.search.toLowerCase())
+      );
+
+      if (courses.length == 0) {
+        courses = coursesCopy;
+      }
+    }
+
+    res.render("home_pages/home", {
+      title: "All Courses",
+      courses,
+      userId,
+      myCourses: false,
+      msg: false,
+    });
+  });
+
+}else{
+// Home
+
   Course.find()
     .sort({ enrolledUsers: -1, createdAt: -1 })
     .then((result) => {
-      // const topCourses = result.filt
+
       res.render("home_pages/home", {
         title: "All Courses",
         courses: result,
@@ -57,6 +86,8 @@ const courses_index = (req, res) => {
     .catch((err) => {
       console.error(err.message);
     });
+}
+ 
 };
 
 const courses_search = (req, res) => {
@@ -84,14 +115,14 @@ const courses_search = (req, res) => {
       courses,
       userId,
       myCourses: false,
-      msg:false,
+      msg: false,
     });
   });
 };
 
 const courses_mycourses = (req, res) => {
- //Capture user id
-  console.log('My Courses');
+  //Capture user id
+  console.log("My Courses");
   let msg = false;
 
   const userId = res.locals.user._id;
@@ -100,16 +131,13 @@ const courses_mycourses = (req, res) => {
     const coursesCopy = [...courses];
 
     //search mode
-    
-      courses = courses.filter((course) =>
-        course.enrolledUsers.includes(userId)
-      );
-      console.log(courses)
-      if (courses.length == 0) {
-        courses = [];
-        msg = 'You have not enrolled in any courses.'
-      }
-    
+
+    courses = courses.filter((course) => course.enrolledUsers.includes(userId));
+    console.log(courses);
+    if (courses.length == 0) {
+      courses = [];
+      msg = "You have not enrolled in any courses.";
+    }
 
     res.render("home_pages/home", {
       title: "My Courses",
@@ -121,26 +149,52 @@ const courses_mycourses = (req, res) => {
   });
 };
 
-const course_enrollment = (req, res) => {
+const course_enrollment = async (req, res) => {
   console.log("Check Enrollment");
   const userId = res.locals.user._id;
   const courseId = req.params.id;
 
-  Course.findByIdAndUpdate(
-    { _id: courseId },
-    { $push: { enrolledUsers: userId } }
-  )
-    .then((result) => {
-      User.findByIdAndUpdate(
+//ALFREDS APPROACH
+// const user = req.locals.user 
+//  user.enrolledCourses.push(courseId)
+//  user.save()
+// Courser.find({courseId:id}).then((course)=>{
+
+// let updatedCourse = course.enrolledUser.filter(u=> u._id !== user.id)
+//  let updated = {...course, ...updatedCourse}
+// updated.save()
+
+// course.enrolledUsers.push(user._id)
+// course.save()
+// })
+
+  try {
+    let course = await Course.findById({ _id: courseId });
+
+    if (course.enrolledUsers.includes(userId)) {
+      await Course.updateOne(
+        { _id: courseId },
+        { $pull: { enrolledUsers: userId } }
+      );
+      await User.updateOne(
+        { _id: userId },
+        { $pull: { enrolledCourses: courseId } }
+      );
+    } else {
+      await Course.updateOne(
+        { _id: courseId },
+        { $push: { enrolledUsers: userId } }
+      );
+      await User.updateOne(
         { _id: userId },
         { $push: { enrolledCourses: courseId } }
-      ).then(() => {
-        res.redirect("back");
-      });
-    })
-    .catch((err) => {
-      console.error(err.message);
-    });
+      );
+    }
+
+    res.redirect("back");
+  } catch (err) {
+    console.error(err.message);
+  }
 };
 
 const course_details = (req, res) => {
