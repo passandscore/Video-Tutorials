@@ -33,12 +33,14 @@
                     <div class="card-body ">
                       <h4 class="card-title coursebox-title"><%= course.title  %> </h4>
                     </div>
-                      <div class="card-footer">
+                      <div class="card-footer d-inline-flex align-items-center justify-content-between">
                             <a href="/courses/details/<%= course._id%>"><button type="button" class="btn btn-info details bottom-5">Details</button></a>
-                              <div class="float-right m-0">
+                              <div class="col text-right">
                                 <small><%= course.createdAt  %> </small>
-                                <br class="m-0">
-                                <small class="text-right"> <% if( userId == course.author && myCourses) { %> AUTHOR <% } %>  <% if( course.enrolledUsers.includes(userId)) { %> ENROLLED <% } %> </small>
+                            
+                                <% if( userId == course.author && myCourses) { %>
+                                <small class="badge badge-info"> AUTHOR </small>
+                                <% } %>
                               </div>
                       </div>
                     </div> <!--card-->

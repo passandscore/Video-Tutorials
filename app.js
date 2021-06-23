@@ -10,7 +10,8 @@ const coursesRoutes = require("./routes/coursesRoutes");
 const authRoutes = require("./routes/authRoutes");
 const cookieParser = require("cookie-parser");
 const { requireAuth, checkUser } = require("./middleware/authMiddleware");
-const coursesController = require("./controllers/coursesController");
+
+
 
 //express app
 const app = express();
@@ -43,12 +44,11 @@ app.use(express.json()); //Applies form data to the req.body
 app.use(cookieParser());
 app.use(morgan("dev")); //displays error messages in the console with options.
 
+
 //Routes
 app.get("*", checkUser);
 
 app.use("/courses", requireAuth, coursesRoutes);
-
-// app.get("/search", coursesController.courses_search);
 
 app.get("/", (req, res) => {
   res.redirect("/courses");
