@@ -132,7 +132,7 @@ const courses_mycourses = (req, res) => {
 
     //search mode
 
-    courses = courses.filter((course) => course.enrolledUsers.includes(userId));
+    courses = courses.filter((course) => course.enrolledUsers.includes(userId) || course.author == userId);
     console.log(courses);
     if (courses.length == 0) {
       courses = [];
