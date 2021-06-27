@@ -73,7 +73,6 @@ module.exports.guest_get = (req, res) => {
 };
 
 module.exports.signup_get = (req, res) => {
-  console.log("signup");
   res.render("user_pages/signup", { title: "Register" });
 };
 

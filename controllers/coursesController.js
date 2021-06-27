@@ -40,40 +40,42 @@ const handleErrors = (err) => {
 };
 
 const courses_index = (req, res) => {
-const userId = res.locals.user._id;
+  const userId = res.locals.user._id;
 
 
-if(req.query.search){
+  if(req.query.search){
 
-  Course.find({}).then((courses) => {
-  const coursesCopy = [...courses];
-    
-    //search mode
-    if (req.query.search) {
-      courses = courses.filter((course) =>
-        course.title.toLowerCase().includes(req.query.search.toLowerCase())
-      );
+    Course.find({}).then((courses) => {
+    const coursesCopy = [...courses];
+      //search mode
+      if (req.query.search) {
+        courses = courses.filter((course) =>
+          course.title.toLowerCase().includes(req.query.search.toLowerCase())
+        );
 
-      if (courses.length == 0) {
-        courses = coursesCopy;
+        if (courses.length == 0) {
+          courses = coursesCopy;
+        }
       }
-    }
 
-    res.render("home_pages/home", {
-      title: "All Courses",
-      courses,
-      userId,
-      myCourses: false,
-      msg: false,
+      res.render("home_pages/home", {
+        title: "All Courses",
+        courses,
+        userId,
+        myCourses: false,
+        msg: false,
+      });
     });
-  });
 
-}else{
-// Home
+  }else{
+  // Home
 
   Course.find()
     .sort({ enrolledUsers: -1, createdAt: -1 })
     .then((result) => {
+
+    //Only display the public courses
+    result = result.filter((course) => course.isPublic);
 
       res.render("home_pages/home", {
         title: "All Courses",
@@ -92,9 +94,8 @@ if(req.query.search){
 
 const courses_search = (req, res) => {
   //Capture user id
-  console.log(res);
-
   const userId = res.locals.user._id;
+
   Course.find({}).then((courses) => {
     //copy the courses
     const coursesCopy = [...courses];
@@ -122,8 +123,7 @@ const courses_search = (req, res) => {
 
 const courses_mycourses = (req, res) => {
   //Capture user id
-  console.log("My Courses");
-  let msg = false;
+  let msg = false;  
 
   const userId = res.locals.user._id;
   Course.find({}).then((courses) => {
@@ -133,7 +133,6 @@ const courses_mycourses = (req, res) => {
     //search mode
 
     courses = courses.filter((course) => course.enrolledUsers.includes(userId) || course.author == userId);
-    console.log(courses);
     if (courses.length == 0) {
       courses = [];
       msg = "You have not enrolled in any courses.";
@@ -150,23 +149,8 @@ const courses_mycourses = (req, res) => {
 };
 
 const course_enrollment = async (req, res) => {
-  console.log("Check Enrollment");
   const userId = res.locals.user._id;
   const courseId = req.params.id;
-
-//ALFREDS APPROACH
-// const user = req.locals.user 
-//  user.enrolledCourses.push(courseId)
-//  user.save()
-// Courser.find({courseId:id}).then((course)=>{
-
-// let updatedCourse = course.enrolledUser.filter(u=> u._id !== user.id)
-//  let updated = {...course, ...updatedCourse}
-// updated.save()
-
-// course.enrolledUsers.push(user._id)
-// course.save()
-// })
 
   try {
     let course = await Course.findById({ _id: courseId });
@@ -198,12 +182,12 @@ const course_enrollment = async (req, res) => {
 };
 
 const course_details = (req, res) => {
-  console.log("GET DETAILS");
 
   const id = req.params.id;
 
   Course.findById(id)
     .then((result) => {
+      
       const currentUserCourses = res.locals.user.enrolledCourses;
       let isEnrolled = currentUserCourses.includes(result._id);
       //Check is the current user is the author
@@ -226,7 +210,6 @@ const course_details = (req, res) => {
 };
 
 const course_create_get = (req, res) => {
-  console.log("GET CREATE");
   const userId = res.locals.user._id;
   res.render("courses/create-course", {
     title: "Create a new Course",
@@ -236,7 +219,6 @@ const course_create_get = (req, res) => {
 
 const course_create_post = async (req, res) => {
   try {
-    console.log(res.locals);
     await Course.create(req.body);
     res.json({ status: "success" });
   } catch (err) {
@@ -247,7 +229,6 @@ const course_create_post = async (req, res) => {
 };
 
 const course_edit_get = (req, res) => {
-  console.log("GET CREATE");
   const courseId = req.params.id;
   Course.findById(courseId).then((result) => {
     //Modify url value when not provided
@@ -262,8 +243,8 @@ const course_edit_get = (req, res) => {
 };
 
 const course_edit_post = async (req, res) => {
+
   try {
-    console.log(res.locals);
     const id = req.body.courseId;
     const { title, description, imageUrl, isPublic } = req.body;
     await Course.findByIdAndUpdate(
@@ -280,7 +261,6 @@ const course_edit_post = async (req, res) => {
 };
 
 const course_delete_get = (req, res) => {
-  console.log("DELETE COURSE");
   const id = req.params.id;
   Course.findByIdAndDelete(id)
     .then((result) => {

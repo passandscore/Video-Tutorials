@@ -52,7 +52,7 @@
           class="form-check-input"
           id="check-box"
           name="isPublic"
-          checked = '<%= course.isPublic %>'
+          <% if (course.isPublic) { %> checked <% } %> 
         />
         <label class="form-check-label" for="check-box">Public</label>
       </div>
