@@ -36,7 +36,7 @@ Implemented a CRUD based Web application (SPA) that allows you to create and/or 
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/passandscore/wiki-project.git
+   git clone https://github.com/passandscore/Video-Tutorials.git
    ```
 2. Install NPM packages
    ```sh
