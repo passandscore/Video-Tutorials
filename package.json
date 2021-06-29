@@ -1,8 +1,8 @@
 {
-  "name": "NetNinja",
+  "name": "Video-Tutorials",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "app.js",
   "dependencies": {
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",
